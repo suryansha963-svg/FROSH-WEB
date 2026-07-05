@@ -11,7 +11,9 @@
 //               x = pixelX / imageWidth  * 100
 //               y = pixelY / imageHeight * 100
 //   eyebrow     small label above the title in the modal
-//   image       path to an image/illustration for the modal
+//   images      array of image paths for the modal. One image = no
+//               arrows shown. Two or more = a next/prev gallery with
+//               a dot counter appears automatically.
 //   description a couple of sentences about the place
 //   facts       optional {label: value} pairs shown as a list
 //
@@ -27,7 +29,7 @@ const LOCATIONS = [
     x: 36.9,
     y: 32.8,
     eyebrow: "Sports Complex · Outdoor",
-    image: "cricket-field.svg",
+    images: ["images/cricket.jpeg"],
     description:
       "The cricket field sits at the heart of Thapar's sports zone, ringed by the synthetic running track and framed by the campus's dense tree cover. It's a full-size ground used for inter-hostel tournaments, practice nets, and open play through the year.",
     facts: {
@@ -43,7 +45,7 @@ const LOCATIONS = [
     x: 23.7,
     y: 50.1,
     eyebrow: "Sports Complex · Outdoor",
-    image: "campus-map.jpg",
+    images: ["images/synthetic-track.png"],
     description:
       "A 400m synthetic athletics track used for practice and sports events, wrapping around the cricket field and OAT.",
     facts: {
@@ -57,7 +59,7 @@ const LOCATIONS = [
     x: 64,
     y: 44.5,
     eyebrow: "Department · CSED",
-    image: "campus-map.jpg",
+    images: ["images/cs-block-1.png", "images/cs-block-2.png"],
     description:
       "Home to the Computer Science and Engineering Department (CSED) — lecture rooms, labs, and faculty offices.",
     facts: {
@@ -71,7 +73,7 @@ const LOCATIONS = [
     x: 45,
     y: 46,
     eyebrow: "Sports Complex",
-    image: "campus-map.jpg",
+    images: ["images/sports.jpeg"],
     description: "Multi-purpose hall featuring premium courts for badminton, basketball, volleyball, and table tennis.",
     facts: { Indoor: "Arena" }
   },
@@ -82,7 +84,7 @@ const LOCATIONS = [
     x: 29.6,
     y: 47,
     eyebrow: "Cultural Hub · TIET",
-    image: "campus-map.jpg",
+    images: ["images/oat.png"],
     description: "The vibrant heart of Thapar's cultural life, hosting major events, street plays, musical nights.",
     facts: {
       "Capacity": "Large outdoor seating",
@@ -95,7 +97,7 @@ const LOCATIONS = [
     x: 29.6,
     y: 54,
     eyebrow: "Student Hub · TIET",
-    image: "campus-map.jpg",
+    images: ["images/cos.jpeg"],
     description: "The ultimate campus hangout spot featuring food joints, retail shops, and a vibrant open area where students gather, relax, and socialize after classes.",
     facts: {"Type": "Student Hangout & Retail",
     "Facilities": "Eateries, Shops & Open Spaces"
@@ -107,7 +109,7 @@ const LOCATIONS = [
     x: 67,
     y: 57.5,
     eyebrow: "Academic",
-    image: "campus-map.jpg",
+    images: ["images/library.png"],
     description: "The central library, next to the LT and LP 101–103 lecture blocks.",
     facts: {}
   },
@@ -117,7 +119,7 @@ const LOCATIONS = [
     x: 79,
     y: 35,
     eyebrow: "Academic",
-    image: "campus-map.jpg",
+    images: ["images/tslas.png"],
     description: "An innovative, interdisciplinary hub blending sciences, humanities, management, and social sciences with global university pathways and student-centric pedagogy.",
     facts: {"Programs": "BA, BSc, BCom, BBA (Hons.)",
     "Focus": "Interdisciplinary Education"}
@@ -128,7 +130,7 @@ const LOCATIONS = [
     x: 71,
     y: 69.3,
     eyebrow: "Department · ECED",
-    image: "campus-map.jpg",
+    images: ["images/c-block.jpg"],
     description: "Home to the Electronics & Communication Engineering Department (ECED).",
     facts: { Department: "ECED" }
   },
@@ -138,7 +140,7 @@ const LOCATIONS = [
     x: 48,
     y: 80,
     eyebrow: "Hostel · Girls",
-    image: "campus-map.jpg",
+    images: ["campus-map.jpg"],
     description:
       "Dhriti Hall, the newest addition to the Thapar Institute of Engineering & Technology campus, is a modern hostel designed exclusively for female residents, offering 928 air-conditioned double-occupancy rooms with shared facilities.",
     facts: { "Total Capacity": "928" }
@@ -149,7 +151,7 @@ const LOCATIONS = [
     x: 52,
     y: 80,
     eyebrow: "Hostel · Girls",
-    image: "campus-map.jpg",
+    images: ["images/hostel-q.jpg"],
     description:
       "Hostel Q is the newest addition to the Thapar Institute campus's state-of-the-art housing facilities. Designed exclusively for female residents, it offers 928 double-seater rooms with air conditioning and shared restrooms.",
     facts: { "Total Capacity": "928" }
@@ -160,7 +162,7 @@ const LOCATIONS = [
     x: 50,
     y: 47,
     eyebrow: "Hostel · Girls",
-    image: "campus-map.jpg",
+    images: ["images/hostel-g.jpg"],
     description:
       "Hostel E is one of the girls' hostels on campus, offering a range of facilities to create a comfortable and conducive environment for female students. Various room configurations are available to accommodate different preferences and needs.",
     facts: { "Total Capacity": "234" }
@@ -171,7 +173,7 @@ const LOCATIONS = [
     x: 50,
     y: 58,
     eyebrow: "Hostel · Girls",
-    image: "campus-map.jpg",
+    images: ["images/hostel-g.jpg"],
     description:
       "Hostel G is beautiful and charming, surrounded by majestic lawns that add to its appeal. Recently renovated, it offers accommodation for 234 girls, with various room options available so students can choose according to their preferences.",
     facts: { "Total Capacity": "234" }
@@ -182,7 +184,7 @@ const LOCATIONS = [
     x: 55.5,
     y: 44,
     eyebrow: "Hostel · Girls",
-    image: "campus-map.jpg",
+    images: ["images/hostel-i.jpg"],
     description:
       "Hostel I at Thapar Institute of Engineering & Technology, Patiala, offers female students affordable and socially comfortable accommodation.",
     facts: { "Total Capacity": "406" }
@@ -193,7 +195,7 @@ const LOCATIONS = [
     x: 56,
     y: 57,
     eyebrow: "Hostel · Girls",
-    image: "campus-map.jpg",
+    images: ["images/hostel-n-1.jpg", "images/hostel-n-2.png"],
     description:
       "Iconic Ananta Hall is a newly constructed multistory girls' hostel at Thapar Institute of Engineering & Technology. It is regarded as one of the country's finest hostels and boasts state-of-the-art facilities.",
     facts: { "Total Capacity": "500" }
@@ -204,7 +206,7 @@ const LOCATIONS = [
     x: 50,
     y: 65,
     eyebrow: "Eatery · COS Complex",
-    image: "kravings.jpg",
+    images: ["images/kravings.jpg"],
     description: "A favorite student food joint located at the COS complex, famous for its quick bites, refreshing beverages, and late-afternoon snacks.",
     facts: {
     "Type": "Café & Fast Food",
@@ -217,7 +219,7 @@ const LOCATIONS = [
   x: 65,
   y: 51.5,
   eyebrow: "Academic Infrastructure · TIET",
-  image: "learning-theatre.jpg",
+  images: ["images/learning-theatre.jpg"],
   description: "State-of-the-art, tiered lecture halls featuring modern acoustics, advanced projection systems, and interactive layouts designed for an immersive lecture experience.",
   facts: {
     "Type": "Smart Lecture Halls",
@@ -230,7 +232,7 @@ const LOCATIONS = [
   x: 72,
   y: 49,
   eyebrow: "Administration & Hospitality · TIET",
-  image: "dean-visitors.jpg",
+  images: ["images/dean-visitors.png"],
   description: "The central administrative hub for student welfare and activities, featuring a premium waiting lounge to receive parents, official guests, and recruiters.",
   facts: {
     "Location": "Administrative Block",
@@ -243,7 +245,7 @@ const LOCATIONS = [
   x: 63,
   y: 31.5,
   eyebrow: "Medical & Wellness · TIET",
-  image: "health-centre.jpg",
+  images: ["images/health-centre.png"],
   description: "The campus medical facility providing 24/7 emergency medical care, general OPD consultations, routine checkups, and ambulance services for all students and staff.",
   facts: {
     "Availability": "24/7 Medical Care",
@@ -256,7 +258,7 @@ const LOCATIONS = [
   x: 72.5,
   y: 58,
   eyebrow: "Academic & Practical Training · TIET",
-  image: "mechanical-workshop.jpg",
+  images: ["images/mechanical-workshop.jpg"],
   description: "A sprawling hands-on training facility equipped with industrial machinery, welding bays, foundry setups, and lathe sections where students learn core manufacturing and fabrication skills.",
   facts: {
     "Department": "Mechanical Engineering",
@@ -269,7 +271,7 @@ const LOCATIONS = [
   x: 82.5,
   y: 58,
   eyebrow: "Innovation & Incubation · TIET",
-  image: "elc-building.jpg",
+  images: ["images/elc-building.jpg"],
   description: "A state-of-the-art facility focused on hands-on engineering, creative design, and entrepreneurial prototyping. It features maker spaces, high-tech labs, and co-working areas to turn student ideas into real-world projects.",
   facts: {
     "Purpose": "Experiential Learning & Innovation",
@@ -282,7 +284,7 @@ const LOCATIONS = [
   x: 72,
   y: 37,
   eyebrow: "Innovation & Entrepreneurship · TIET",
-  image: "venture-lab.jpg",
+  images: ["images/venture-lab.png"],
   description: "The startup incubator and acceleration hub at Thapar, dedicated to nurturing student entrepreneurs with mentorship, seed funding, co-working spaces, and legal support to launch scalable businesses.",
   facts: {
     "Purpose": "Startup Incubation & Funding",
@@ -295,7 +297,7 @@ const LOCATIONS = [
   x: 47,
   y: 53,
   eyebrow: "Sports & Recreation · TIET",
-  image: "swimming-pool.jpg",
+  images: ["images/swimming.jpeg"],
   description: "A beautifully maintained, standard competitive swimming pool equipped with clean filtration systems, shower rooms, and training lanes for recreation, fitness, and inter-hostel aquatic events.",
   facts: {
     "Type": "Outdoor Standard Pool",
@@ -308,7 +310,7 @@ const LOCATIONS = [
   x: 58,
   y: 65,
   eyebrow: "Academic Infrastructure · TIET",
-  image: "tan-building.jpg",
+  images: ["images/tan-building.jpg"],
   description: "A cutting-edge academic wing housing smart classrooms advanced computer centers and collaborative spaces designed to optimize digital learning and faculty-student interaction",
   facts: {
     "Purpose": "Digital Learning & Modern Lectures",
@@ -321,7 +323,7 @@ const LOCATIONS = [
   x: 55,
   y: 65,
   eyebrow: "Student Accommodation · TIET",
-  image: "hostel-f.jpg",
+  images: ["campus-map.jpg"],
   description: "One of the established boys hostels at Thapar providing a comfortable residential environment with lush green lawns spacious common areas and clean dining facilities",
   facts: {
     "Type": "Boys Hostel",
@@ -334,7 +336,7 @@ const LOCATIONS = [
   x: 63,
   y: 65,
   eyebrow: "Academic Block · TIET",
-  image: "g-block.jpg",
+  images: ["images/g-block.jpg"],
   description: "A prominent academic block housing multiple department classrooms faculty rooms and modern engineering laboratories designed for interactive technical education",
   facts: {
     "Type": "Academic & Research Building",
@@ -347,7 +349,7 @@ const LOCATIONS = [
   x: 68.5,
   y: 89,
   eyebrow: "Cultural & Events · TIET",
-  image: "main-auditorium.jpg",
+  images: ["images/main-auditorium.jpg"],
   description: "The premier indoor event venue at Thapar featuring a massive seating capacity high-end acoustics and modern staging systems for convocations cultural performances and guest lectures",
   facts: {
     "Type": "Indoor Auditorium",
@@ -360,7 +362,7 @@ const LOCATIONS = [
   x: 71,
   y: 74,
   eyebrow: "Academic Block · TIET",
-  image: "b-block.jpg",
+  images: ["images/b block.jpeg"],
   description: "One of the legacy academic blocks housing the Electrical and Instrumentation Engineering Department (EIED) along with core foundation labs and lecture halls",
   facts: {
     "Department": "Electrical and Instrumentation Engineering",
@@ -373,7 +375,7 @@ const LOCATIONS = [
   x: 71,
   y: 65,
   eyebrow: "Academic Block · TIET",
-  image: "d-block.jpg",
+  images: ["images/d block.jpeg"],
   description: "A key academic block housing the Civil Engineering Department along with computing laboratories lecture rooms and faculty offices",
   facts: {
     "Department": "Civil Engineering & Computer Science",
@@ -386,7 +388,7 @@ const LOCATIONS = [
   x: 75.5,
   y: 71.5,
   eyebrow: "Academic Block · TIET",
-  image: "e-block.jpg",
+  images: ["images/e-block.jpg"],
   description: "A major academic block housing the Electronics and Communication Engineering department along with advanced embedded systems and chemical engineering labs",
   facts: {
     "Department": "Electronics & Chemical Engineering",
@@ -399,7 +401,7 @@ const LOCATIONS = [
   x: 75.5,
   y: 66.5,
   eyebrow: "Academic Block · TIET",
-  image: "f-block.jpg",
+  images: ["images/f-block.jpg"],
   description: "An academic building mainly utilized for Computer Science lectures tutorial sessions and faculty interaction rooms",
   facts: {
     "Department": "Computer Science Engineering",
@@ -412,7 +414,7 @@ const LOCATIONS = [
   x: 78.5,
   y: 79.5,
   eyebrow: "Academic Block · TIET",
-  image: "h-block.jpg",
+  images: ["images/h-block.png"],
   description: "The academic block dedicated to Chemistry and Biochemistry housing comprehensive wet labs research apparatus and foundational science lecture halls",
   facts: {
     "Department": "School of Chemistry & Sciences",
@@ -425,7 +427,7 @@ const LOCATIONS = [
   x: 73,
   y: 78,
   eyebrow: "Apex Administration · TIET",
-  image: "directorate.jpg",
+  images: ["images/directorate-1.png", "images/directorate-2.png"],
   description: "The highest administrative office at Thapar housing the Director and leadership team responsible for strategic vision institutional growth and policy decisions",
   facts: {
     "Location": "Main Administrative Block",
@@ -438,7 +440,7 @@ const LOCATIONS = [
     x: 20.7,
     y: 70.5,
     eyebrow: "Hostel · Boys",
-    image: "campus-map.jpg",
+    images: ["images/hostel-m-1.jpg", "images/hostel-m-2.png"],
     description:
       "Anantam Hall is one of the residential halls in the western hostel cluster, close to Shiv Mandir, the Gurudwara, and the Western Gate.",
     facts: { "Total Capacity": "1148" }
@@ -449,7 +451,7 @@ const LOCATIONS = [
     x: 15.9,
     y: 84.5,
     eyebrow: "Hostel · Boys",
-    image: "campus-map.jpg",
+    images: ["images/hostel-d.jpg"],
     description:
       "Neeram Hall is the latest addition to the exceptional range of hostel facilities. This 928-seater hostel provides double-seater rooms with shared washrooms for boys. Each room is fully furnished, with a study table, chair, wardrobe, bookrack, shoe rack, mattress, geyser, curtains, and dustbins. Students also benefit from amenities such as water coolers and RO systems for their convenience. The hostel features four elevators, ensuring easy access to all floors, with power backup available in emergencies.",
     facts: { "Total Capacity": "928" }
@@ -460,7 +462,7 @@ const LOCATIONS = [
     x: 20.7,
     y: 84.5,
     eyebrow: "Hostel · Boys",
-    image: "campus-map.jpg",
+    images: ["images/hostel-c.jpg"],
     description:
       "Prithvi Hall is one of the oldest hostels equipped with modern amenities. With a total capacity of 387, the hostel offers air-conditioned accommodation in two-seater and three-seater rooms, each featuring a shared washroom for students.",
     facts: { "Total Capacity": "387" }
@@ -471,7 +473,7 @@ const LOCATIONS = [
     x: 27.9,
     y: 84.5,
     eyebrow: "Hostel · Boys",
-    image: "campus-map.jpg",
+    images: ["images/hostel-o.jpg"],
     description:
       "Vyom Hall is the latest addition to the exceptional range of hostel facilities on the Thapar Institute campus. This 928-seater hostel provides double-seater rooms with shared washrooms for boys.",
     facts: { "Total Capacity": "928" }
@@ -482,7 +484,7 @@ const LOCATIONS = [
     x: 31.5,
     y: 82.7,
     eyebrow: "Hostel · Boys",
-    image: "campus-map.jpg",
+    images: ["images/hostel-b.jpg"],
     description:
       "Amritam Hall offers a comfortable and enjoyable student environment with its easy-going and relaxing atmosphere.",
     facts: { "Total Capacity": "724" }
@@ -493,7 +495,7 @@ const LOCATIONS = [
     x: 41,
     y: 82.7,
     eyebrow: "Hostel · Boys",
-    image: "campus-map.jpg",
+    images: ["images/hostel-a.jpg"],
     description:
       "Agira Hall is the latest addition to the exceptional range of hostel facilities. This 928-seater hostel provides double-seater rooms with shared washrooms for boys.",
     facts: { "Total Capacity (Single Rooms)": "928" }
@@ -504,7 +506,7 @@ const LOCATIONS = [
     x: 31.5,
     y: 66,
     eyebrow: "Hostel · Boys",
-    image: "campus-map.jpg",
+    images: ["images/hostel-j.jpg"],
     description:
       "Tejas Hall is a multistoried boys hostel at Thapar Institute of Engineering & Technology, offering state-of-the-art facilities. It is considered one of the finest hostels designed to provide residents with a comfortable and convenient living experience.",
     facts: { "Total Capacity": "1170" }
@@ -515,7 +517,7 @@ const LOCATIONS = [
     x: 41,
     y: 66,
     eyebrow: "Hostel · Boys",
-    image: "campus-map.jpg",
+    images: ["images/hostel-h.jpg"],
     description:
       "Vyan Hall is a spacious and well-equipped hostel providing ample space for residents. Sixty of its rooms, housing 240 students, are air-conditioned, offering an added level of comfort.",
     facts: { "Total Capacity": "680" }
@@ -526,7 +528,7 @@ const LOCATIONS = [
     x: 36.3,
     y: 14.3,
     eyebrow: "Hostel · Boys",
-    image: "campus-map.jpg",
+    images: ["images/hostel-k.jpg"],
     description:
       "Ambaram Hall is a well-equipped hostel that offers comfortable accommodation for students, close to the Polytechnic Gate and the sports zone.",
     facts: { "Total Capacity": "600" }
@@ -537,7 +539,7 @@ const LOCATIONS = [
     x: 50.8,
     y: 15.3,
     eyebrow: "Hostel · Boys",
-    image: "campus-map.jpg",
+    images: ["images/hostel-l.jpg"],
     description:
       "Viyat Hall is a student residential facility at Thapar Institute of Engineering and Technology in Patiala. This 300-bedded hostel offers a comfortable and modern living experience to its residents.",
     facts: { "Total Capacity": "300" }
@@ -561,6 +563,13 @@ const modalEyebrow = document.getElementById("modalEyebrow");
 const modalTitle = document.getElementById("modalTitle");
 const modalDescription = document.getElementById("modalDescription");
 const modalFacts = document.getElementById("modalFacts");
+const modalPrev = document.getElementById("modalPrev");
+const modalNext = document.getElementById("modalNext");
+const modalDots = document.getElementById("modalDots");
+
+// Gallery state for the currently open location
+let currentImages = [];
+let currentImageIndex = 0;
 
 // ============================================================
 // RENDER MARKERS FROM LOCATIONS
@@ -611,8 +620,10 @@ function hideTooltip() {
 // MODAL (click detail)
 // ============================================================
 function openModal(loc) {
-  modalImage.src = loc.image;
-  modalImage.alt = loc.name;
+  currentImages = loc.images && loc.images.length ? loc.images : ["campus-map.jpg"];
+  currentImageIndex = 0;
+  renderGalleryImage();
+
   modalEyebrow.textContent = loc.eyebrow || "";
   modalTitle.textContent = loc.name;
   modalDescription.textContent = loc.description || "";
@@ -633,6 +644,40 @@ function openModal(loc) {
   modalClose.focus();
 }
 
+// ============================================================
+// IMAGE GALLERY (prev/next through loc.images)
+// ============================================================
+function renderGalleryImage() {
+  modalImage.src = currentImages[currentImageIndex];
+  modalImage.alt = modalTitle.textContent;
+
+  const hasMultiple = currentImages.length > 1;
+  modalPrev.hidden = !hasMultiple;
+  modalNext.hidden = !hasMultiple;
+  modalDots.hidden = !hasMultiple;
+
+  if (hasMultiple) {
+    modalDots.innerHTML = "";
+    currentImages.forEach((_, i) => {
+      const dot = document.createElement("span");
+      dot.className = "modal-dot" + (i === currentImageIndex ? " is-active" : "");
+      modalDots.appendChild(dot);
+    });
+  }
+}
+
+function showNextImage() {
+  if (currentImages.length < 2) return;
+  currentImageIndex = (currentImageIndex + 1) % currentImages.length;
+  renderGalleryImage();
+}
+
+function showPrevImage() {
+  if (currentImages.length < 2) return;
+  currentImageIndex = (currentImageIndex - 1 + currentImages.length) % currentImages.length;
+  renderGalleryImage();
+}
+
 function closeModal() {
   overlay.classList.remove("is-open");
   document.body.style.overflow = "";
@@ -642,15 +687,18 @@ function closeModal() {
 // GLOBAL EVENTS
 // ============================================================
 modalClose.addEventListener("click", closeModal);
+modalNext.addEventListener("click", showNextImage);
+modalPrev.addEventListener("click", showPrevImage);
 
 overlay.addEventListener("click", (e) => {
   if (e.target === overlay) closeModal();
 });
 
 document.addEventListener("keydown", (e) => {
-  if (e.key === "Escape" && overlay.classList.contains("is-open")) {
-    closeModal();
-  }
+  if (!overlay.classList.contains("is-open")) return;
+  if (e.key === "Escape") closeModal();
+  if (e.key === "ArrowRight") showNextImage();
+  if (e.key === "ArrowLeft") showPrevImage();
 });
 
 window.addEventListener("scroll", hideTooltip, { passive: true });

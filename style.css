@@ -271,6 +271,7 @@ body {
 .modal-close:hover { background: var(--maroon); color: #fff; }
 
 .modal-media {
+  position: relative;
   background: var(--mist);
   display: flex;
   align-items: center;
@@ -282,6 +283,60 @@ body {
   width: 100%;
   height: auto;
   border-radius: var(--radius-sm);
+  object-fit: cover;
+}
+
+/* Gallery prev/next arrows */
+.modal-nav {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 38px;
+  height: 38px;
+  border-radius: 50%;
+  border: none;
+  background: rgba(255, 255, 255, 0.9);
+  color: var(--ink);
+  font-size: 22px;
+  line-height: 1;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.25);
+  transition: background 0.15s ease, color 0.15s ease, transform 0.15s ease;
+}
+
+.modal-nav:hover {
+  background: var(--maroon);
+  color: #fff;
+  transform: translateY(-50%) scale(1.08);
+}
+
+.modal-nav-prev { left: 30px; }
+.modal-nav-next { right: 30px; }
+
+/* Gallery dot counter */
+.modal-dots {
+  position: absolute;
+  bottom: 14px;
+  left: 50%;
+  transform: translateX(-50%);
+  display: flex;
+  gap: 6px;
+}
+
+.modal-dot {
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background: rgba(31, 42, 28, 0.28);
+  transition: background 0.15s ease, transform 0.15s ease;
+}
+
+.modal-dot.is-active {
+  background: var(--maroon);
+  transform: scale(1.2);
 }
 
 .modal-body {
@@ -350,4 +405,7 @@ body {
   }
   .marker { width: 28px; height: 28px; }
   .marker-dot, .marker-pulse { width: 13px; height: 13px; }
+  .modal-nav { width: 32px; height: 32px; font-size: 18px; }
+  .modal-nav-prev { left: 12px; }
+  .modal-nav-next { right: 12px; }
 }
