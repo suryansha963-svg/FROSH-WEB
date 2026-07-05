@@ -1,0 +1,353 @@
+/* ============================================================
+   DESIGN TOKENS
+============================================================ */
+:root {
+  --mist:        #EAF0E1;   /* page background, lifted from the map's own turf tone */
+  --panel:       #FFFFFF;
+  --ink:         #1F2A1C;
+  --ink-muted:   #5B6B54;
+  --maroon:      #8C1D40;   /* institute accent */
+  --maroon-dark: #6B1631;
+  --gold:        #C9A227;
+  --line:        #D6DECB;
+
+  --font-display: "Fraunces", serif;
+  --font-body:    "Inter", system-ui, sans-serif;
+  --font-mono:    "JetBrains Mono", monospace;
+
+  --radius-lg: 20px;
+  --radius-sm: 10px;
+  --shadow-lg: 0 30px 60px -20px rgba(31, 42, 28, 0.35);
+}
+
+* { box-sizing: border-box; }
+
+body {
+  margin: 0;
+  background: var(--mist);
+  color: var(--ink);
+  font-family: var(--font-body);
+  -webkit-font-smoothing: antialiased;
+}
+
+/* ============================================================
+   HEADER
+============================================================ */
+.page-header {
+  max-width: 1100px;
+  margin: 0 auto;
+  padding: 48px 24px 24px;
+  text-align: center;
+}
+
+.eyebrow {
+  display: inline-block;
+  font-family: var(--font-mono);
+  font-size: 12px;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--maroon);
+  margin-bottom: 10px;
+}
+
+.page-header h1 {
+  font-family: var(--font-display);
+  font-weight: 600;
+  font-size: clamp(32px, 5vw, 52px);
+  margin: 0 0 10px;
+  color: var(--ink);
+}
+
+.subhead {
+  font-size: 15px;
+  color: var(--ink-muted);
+  margin: 0;
+}
+
+/* ============================================================
+   MAP
+============================================================ */
+.map-shell {
+  max-width: 1400px;
+  margin: 0 auto 64px;
+  padding: 0 24px;
+}
+
+.map-frame {
+  position: relative;
+  border-radius: var(--radius-lg);
+  overflow: hidden;
+  border: 1px solid var(--line);
+  box-shadow: var(--shadow-lg);
+  line-height: 0;
+}
+
+.map-image {
+  display: block;
+  width: 100%;
+  height: auto;
+  user-select: none;
+}
+
+/* ============================================================
+   MARKER
+============================================================ */
+.marker {
+  position: absolute;
+  left: var(--x);
+  top: var(--y);
+  transform: translate(-50%, -50%);
+  width: 34px;
+  height: 34px;
+  padding: 0;
+  border: none;
+  background: transparent;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  -webkit-tap-highlight-color: transparent;
+}
+
+.marker-dot {
+  position: relative;
+  z-index: 2;
+  width: 16px;
+  height: 16px;
+  border-radius: 50%;
+  background: var(--maroon);
+  border: 3px solid #fff;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.35);
+  transition: transform 0.18s ease, background 0.18s ease;
+}
+
+.marker-pulse {
+  position: absolute;
+  z-index: 1;
+  width: 16px;
+  height: 16px;
+  border-radius: 50%;
+  background: var(--maroon);
+  opacity: 0.55;
+  animation: pulse 2.2s ease-out infinite;
+}
+
+@keyframes pulse {
+  0%   { transform: scale(1);   opacity: 0.55; }
+  100% { transform: scale(2.8); opacity: 0; }
+}
+
+.marker:hover .marker-dot,
+.marker:focus-visible .marker-dot,
+.marker.is-active .marker-dot {
+  transform: scale(1.25);
+  background: var(--gold);
+}
+
+.marker:focus-visible {
+  outline: none;
+}
+.marker:focus-visible .marker-dot {
+  box-shadow: 0 0 0 4px rgba(140, 29, 64, 0.35), 0 2px 6px rgba(0,0,0,0.35);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .marker-pulse { animation: none; opacity: 0.25; }
+}
+
+/* ============================================================
+   TOOLTIP  (hover preview)
+============================================================ */
+.tooltip {
+  position: fixed;
+  z-index: 60;
+  transform: translate(-50%, calc(-100% - 14px));
+  background: var(--ink);
+  color: #fff;
+  padding: 8px 14px;
+  border-radius: 8px;
+  font-size: 13px;
+  white-space: nowrap;
+  pointer-events: none;
+  opacity: 0;
+  visibility: hidden;
+  transition: opacity 0.15s ease, transform 0.15s ease;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 2px;
+}
+
+.tooltip::after {
+  content: "";
+  position: absolute;
+  top: 100%;
+  left: 50%;
+  transform: translateX(-50%);
+  border: 6px solid transparent;
+  border-top-color: var(--ink);
+}
+
+.tooltip.is-visible {
+  opacity: 1;
+  visibility: visible;
+  transform: translate(-50%, calc(-100% - 20px));
+}
+
+.tooltip-name {
+  font-family: var(--font-display);
+  font-weight: 600;
+  font-size: 14px;
+}
+
+.tooltip-hint {
+  font-family: var(--font-mono);
+  font-size: 10px;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--gold);
+}
+
+/* ============================================================
+   MODAL (click detail)
+============================================================ */
+.modal-overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 100;
+  background: rgba(20, 26, 17, 0.55);
+  backdrop-filter: blur(3px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 24px;
+  opacity: 0;
+  visibility: hidden;
+  transition: opacity 0.22s ease;
+}
+
+.modal-overlay.is-open {
+  opacity: 1;
+  visibility: visible;
+}
+
+.modal-card {
+  position: relative;
+  width: min(760px, 100%);
+  max-height: 88vh;
+  overflow-y: auto;
+  background: var(--panel);
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-lg);
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  transform: translateY(18px) scale(0.97);
+  transition: transform 0.25s ease;
+}
+
+.modal-overlay.is-open .modal-card {
+  transform: translateY(0) scale(1);
+}
+
+.modal-close {
+  position: absolute;
+  top: 14px;
+  right: 14px;
+  z-index: 5;
+  width: 34px;
+  height: 34px;
+  border-radius: 50%;
+  border: none;
+  background: rgba(255,255,255,0.9);
+  color: var(--ink);
+  font-size: 22px;
+  line-height: 1;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: background 0.15s ease, color 0.15s ease;
+}
+.modal-close:hover { background: var(--maroon); color: #fff; }
+
+.modal-media {
+  background: var(--mist);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 20px;
+}
+
+.modal-media img {
+  width: 100%;
+  height: auto;
+  border-radius: var(--radius-sm);
+}
+
+.modal-body {
+  padding: 36px 32px 32px 24px;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.modal-eyebrow {
+  font-family: var(--font-mono);
+  font-size: 11px;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--maroon);
+}
+
+.modal-body h2 {
+  font-family: var(--font-display);
+  font-size: 28px;
+  font-weight: 600;
+  margin: 0;
+  color: var(--ink);
+}
+
+.modal-body p {
+  font-size: 14.5px;
+  line-height: 1.6;
+  color: var(--ink-muted);
+  margin: 0;
+}
+
+.modal-facts {
+  margin: 8px 0 0;
+  display: grid;
+  grid-template-columns: auto 1fr;
+  gap: 8px 14px;
+  font-size: 13px;
+}
+
+.modal-facts dt {
+  font-family: var(--font-mono);
+  color: var(--gold);
+  text-transform: uppercase;
+  font-size: 11px;
+  letter-spacing: 0.05em;
+  align-self: start;
+  padding-top: 2px;
+}
+
+.modal-facts dd {
+  margin: 0;
+  color: var(--ink);
+}
+
+/* ============================================================
+   RESPONSIVE
+============================================================ */
+@media (max-width: 680px) {
+  .modal-card {
+    grid-template-columns: 1fr;
+    max-height: 92vh;
+  }
+  .modal-body {
+    padding: 24px 22px 28px;
+  }
+  .marker { width: 28px; height: 28px; }
+  .marker-dot, .marker-pulse { width: 13px; height: 13px; }
+}
